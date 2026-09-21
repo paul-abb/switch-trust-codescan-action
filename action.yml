@@ -41,7 +41,7 @@ runs:
           else
             API_INSTANCE="${scheme}://api.${host}"
           fi
-          curl -s -L --output image.tar "$FLINTAI_INSTANCE/downloads/sensors/aispm_inventory_scanner/1.0.0" -H "Authorization: ApiKey $FLINTAI_TOKEN"
+          curl -s -L --output image.tar "$API_INSTANCE/downloads/sensors/aispm_inventory_scanner/1.0.0" -H "Authorization: ApiKey $FLINTAI_TOKEN"
         shell: bash
 
       # Load image into the local docker cache
