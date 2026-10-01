@@ -1,15 +1,15 @@
-name: Flint AI Inventory Scan
-description: Scans the repository contents for AI usage and reports findings back to Flint AI.
+name: Switch Trust Inventory Scan
+description: Scans the repository contents for AI usage and reports findings back to Switch Trust.
 author: SB Technology Inc.
 branding:
   icon: alert-triangle
   color: yellow
 inputs:
-  flintai_instance:
-    description: 'URL of your Flint AI instance, e.g. https://app.flintai.dev (other environments: https://dev.flintai.dev, https://staging.flintai.dev).'
+  switch_trust_instance:
+    description: 'URL of your Switch Trust instance, e.g. https://app.flintai.dev (other environments: https://dev.flintai.dev, https://staging.flintai.dev).'
     required: true
-  flintai_token:
-    description: API key for your Flint AI instance
+  switch_trust_token:
+    description: API key for your Switch Trust instance
     required: true
   llm_model:
     description: 'LLM to use, in the form "<provider>:<model>" (e.g. "anthropic:claude-opus-4-8", "openai:gpt-5", "gemini:gemini-2.5-pro").'
@@ -25,23 +25,23 @@ runs:
       - name: Check out repository
         uses: actions/checkout@v5
 
-      # Download the scanner image as a tar, authenticating with the Flint AI API
+      # Download the scanner image as a tar, authenticating with the Switch Trust API
       # key. The /downloads endpoint replies with a 303 redirect to a presigned
       # S3 URL, so -L is required to follow it. The API key must be sent with the
       # "ApiKey" scheme (not "Bearer").
       - name: Download Docker image
         env:
-          FLINTAI_INSTANCE: ${{ inputs.flintai_instance }}
-          FLINTAI_TOKEN: ${{ inputs.flintai_token }}
+          SWITCH_TRUST_INSTANCE: ${{ inputs.switch_trust_instance }}
+          SWITCH_TRUST_TOKEN: ${{ inputs.switch_trust_token }}
         run: |
-          scheme="${FLINTAI_INSTANCE%%://*}"
-          host="${FLINTAI_INSTANCE#*://}"
+          scheme="${SWITCH_TRUST_INSTANCE%%://*}"
+          host="${SWITCH_TRUST_INSTANCE#*://}"
           if [[ "$host" == app.* ]]; then
             API_INSTANCE="${scheme}://api${host#app}"
           else
             API_INSTANCE="${scheme}://api.${host}"
           fi
-          curl -s -L --output image.tar "$API_INSTANCE/downloads/sensors/aispm_inventory_scanner/1.0.0" -H "Authorization: ApiKey $FLINTAI_TOKEN"
+          curl -s -L --output image.tar "$API_INSTANCE/downloads/sensors/aispm_inventory_scanner/1.0.0" -H "Authorization: ApiKey $SWITCH_TRUST_TOKEN"
         shell: bash
 
       # Load image into the local docker cache
@@ -62,10 +62,10 @@ runs:
       # `llm_api_key`; we pick the right name from the provider prefix of
       # `llm_model` (the part before the ":").
 
-      - name: Run Flint AI Inventory scanner container
+      - name: Run Switch Trust Inventory scanner container
         env:
-          FLINTAI_INSTANCE: ${{ inputs.flintai_instance }}
-          FLINTAI_TOKEN: ${{ inputs.flintai_token }}
+          SWITCH_TRUST_INSTANCE: ${{ inputs.switch_trust_instance }}
+          SWITCH_TRUST_TOKEN: ${{ inputs.switch_trust_token }}
           LLM_MODEL: ${{ inputs.llm_model }}
           LLM_API_KEY: ${{ inputs.llm_api_key }}
         run: |
@@ -79,5 +79,5 @@ runs:
               exit 1
               ;;
           esac
-          docker run --rm -e "HOME" -e GITHUB_WORKSPACE="/github/workspace" -e GITHUB_WORKFLOW -e GITHUB_ACTION -e GITHUB_ACTOR -e GITHUB_EVENT_NAME -e GITHUB_REPOSITORY -e GITHUB_REF -e GITHUB_SHA -e FLINTAI_INSTANCE -e "FLINTAI_API_KEY=$FLINTAI_TOKEN" -e LLM_MODEL -e "$key_env=$LLM_API_KEY" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v $GITHUB_WORKSPACE:"/github/workspace" aispm-action-test:latest
+          docker run --rm -e "HOME" -e GITHUB_WORKSPACE="/github/workspace" -e GITHUB_WORKFLOW -e GITHUB_ACTION -e GITHUB_ACTOR -e GITHUB_EVENT_NAME -e GITHUB_REPOSITORY -e GITHUB_REF -e GITHUB_SHA -e SWITCH_TRUST_INSTANCE -e "SWITCH_TRUST_API_KEY=$SWITCH_TRUST_TOKEN" -e LLM_MODEL -e "$key_env=$LLM_API_KEY" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v $GITHUB_WORKSPACE:"/github/workspace" aispm-action-test:latest
         shell: bash
