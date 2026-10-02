@@ -1,8 +1,8 @@
-# Flint AI Inventory Scan
+# Switch Trust Inventory Scan
 
-A [GitHub Action](https://github.com/features/actions) for using [Flint AI](https://www.flintai.dev/). This action performs static analysis on your code to detect AI assets (such as models, agents, and MCP servers), creating an inventory. This inventory is then sent to your Flint AI instance, where it's enriched with additional information and analyzed for issues. You can view the results in the Flint AI web interface. Refer to the [Flint AI user guide](https://docs.flintai.dev/) for details.
+A [GitHub Action](https://github.com/features/actions) for using [Switch Trust](https://www.switchagents.ai/). This action performs static analysis on your code to detect AI assets (such as models, agents, and MCP servers), creating an inventory. This inventory is then sent to your Switch Trust instance, where it's enriched with additional information and analyzed for issues. You can view the results in the Switch Trust web interface. Refer to the [Switch Trust user guide](https://docs.switchagents.ai/) for details.
 
-Scans appear in Flint AI under the **GitHub** data source. If you also scan GitLab projects with the [Flint AI Inventory Scan CI/CD component](https://gitlab.com/sandboxaq/flintai-codescan-workflow), those are reported separately, so the two inventories stay distinguishable.
+Scans appear in Switch Trust under the **GitHub** data source. If you also scan GitLab projects with the [Switch Trust Inventory Scan CI/CD component](https://gitlab.com/sandboxaq/switch-trust-codescan-workflow), those are reported separately, so the two inventories stay distinguishable.
 
 
 
@@ -11,7 +11,7 @@ You can configure the Action as shown in the following example::
 
 
 ```yaml
-name: Example workflow for Python using Flint AI Inventory Scan
+name: Example workflow for Python using Switch Trust Inventory Scan
 on: push
 jobs:
   security:
@@ -19,27 +19,27 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@master
-      - name: Run Flint AI Inventory detection
-        uses: sandbox-quantum/flintai-codescan-action@main
+      - name: Run Switch Trust Inventory detection
+        uses: sandbox-quantum/switch-trust-codescan-action@main
         with:
-          flintai_instance: https://app.flintai.dev
-          flintai_token: ${{ secrets.FLINTAI_TOKEN }}
+          switch_trust_instance: https://app.flintai.dev
+          switch_trust_token: ${{ secrets.SWITCH_TRUST_TOKEN }}
           llm_model: anthropic:claude-opus-4-8
           llm_api_key: ${{ secrets.LLM_API_KEY }}
 ```
 
 ## Properties
-Properties are passed to GitHub Action via explicit `with` input variables. For security, we strongly recommend using [GitHub secrets](https://docs.github.com/en/enterprise-cloud@latest/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets) for the sensitive input variables `flintai_token` and `llm_api_key`.
+Properties are passed to GitHub Action via explicit `with` input variables. For security, we strongly recommend using [GitHub secrets](https://docs.github.com/en/enterprise-cloud@latest/actions/how-tos/write-workflows/choose-what-workflows-do/use-secrets) for the sensitive input variables `switch_trust_token` and `llm_api_key`.
 
 
 | Property            | Required | Description                                                                                                                              |
 | ------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `flintai_instance`  | yes      | URL of your Flint AI instance, e.g. `https://app.flintai.dev` (other environments: `https://dev.flintai.dev`, `https://staging.flintai.dev`).      |
-| `flintai_token`     | yes      | API key for your Flint AI instance                                                                                                       |
+| `switch_trust_instance`  | yes      | URL of your Switch Trust instance, e.g. `https://app.flintai.dev`      |
+| `switch_trust_token`     | yes      | API key for your Switch Trust instance                                                                                                       |
 | `llm_model`         | yes      | LLM to use, in the form `<provider>:<model>`. Supported providers: `anthropic`, `openai`, `gemini`/`google` (e.g. `anthropic:claude-opus-4-8`). |
 | `llm_api_key`       | yes      | API key for the provider selected in `llm_model`. The action forwards it to the scanner under the provider-native name (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, or `GOOGLE_API_KEY`). |
 
 ## About
-Scans the repository contents for AI usage and reports findings back to Flint AI.
+Scans the repository contents for AI usage and reports findings back to Switch Trust.
 
-[Learn more](https://www.flintai.dev/).
+[Learn more](https://www.switchagents.ai/).
