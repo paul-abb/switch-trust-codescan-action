@@ -1,6 +1,6 @@
 # Switch Trust Inventory Scan
 
-A [GitHub Action](https://github.com/features/actions) for using [Switch Trust](https://www.flintai.dev/). This action performs static analysis on your code to detect AI assets (such as models, agents, and MCP servers), creating an inventory. This inventory is then sent to your Switch Trust instance, where it's enriched with additional information and analyzed for issues. You can view the results in the Switch Trust web interface. Refer to the [Switch Trust user guide](https://docs.flintai.dev/) for details.
+A [GitHub Action](https://github.com/features/actions) for using [Switch Trust](https://www.switchagents.ai/). This action performs static analysis on your code to detect AI assets (such as models, agents, and MCP servers), creating an inventory. This inventory is then sent to your Switch Trust instance, where it's enriched with additional information and analyzed for issues. You can view the results in the Switch Trust web interface. Refer to the [Switch Trust user guide](https://docs.switchagents.ai/) for details.
 
 
 
