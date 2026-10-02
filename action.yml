@@ -61,7 +61,10 @@ runs:
       # scanner's SDKs auto-discover. The user supplies a single generic
       # `llm_api_key`; we pick the right name from the provider prefix of
       # `llm_model` (the part before the ":").
-
+      # SWITCH_TRUST_SCM_PROVIDER distinguishes this Action from the GitLab
+      # CI/CD component, which reports as "gitlab".
+      # SWITCH_TRUST_SCM_REPO_URL is built from GITHUB_SERVER_URL so GitHub
+      # Enterprise repositories get their own host instead of github.com.
       - name: Run Switch Trust Inventory scanner container
         env:
           SWITCH_TRUST_INSTANCE: ${{ inputs.switch_trust_instance }}
@@ -79,5 +82,5 @@ runs:
               exit 1
               ;;
           esac
-          docker run --rm -e "HOME" -e GITHUB_WORKSPACE="/github/workspace" -e GITHUB_WORKFLOW -e GITHUB_ACTION -e GITHUB_ACTOR -e GITHUB_EVENT_NAME -e GITHUB_REPOSITORY -e GITHUB_REF -e GITHUB_SHA -e SWITCH_TRUST_INSTANCE -e "SWITCH_TRUST_API_KEY=$SWITCH_TRUST_TOKEN" -e LLM_MODEL -e "$key_env=$LLM_API_KEY" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v $GITHUB_WORKSPACE:"/github/workspace" aispm-action-test:latest
+          docker run --rm -e "HOME" -e GITHUB_WORKSPACE="/github/workspace" -e GITHUB_ACTIONS -e GITHUB_WORKFLOW -e GITHUB_ACTION -e GITHUB_ACTOR -e GITHUB_EVENT_NAME -e GITHUB_REPOSITORY -e GITHUB_REF -e GITHUB_SHA -e SWITCH_TRUST_INSTANCE -e "SWITCH_TRUST_API_KEY=$SWITCH_TRUST_TOKEN" -e "SWITCH_TRUST_SCM_PROVIDER=github" -e "SWITCH_TRUST_SCM_REPO_URL=$GITHUB_SERVER_URL/$GITHUB_REPOSITORY" -e LLM_MODEL -e "$key_env=$LLM_API_KEY" -v "/home/runner/work/_temp/_github_home":"/github/home" -v "/home/runner/work/_temp/_github_workflow":"/github/workflow" -v "/home/runner/work/_temp/_runner_file_commands":"/github/file_commands" -v $GITHUB_WORKSPACE:"/github/workspace" aispm-action-test:latest
         shell: bash
