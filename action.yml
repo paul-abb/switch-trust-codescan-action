@@ -6,7 +6,7 @@ branding:
   color: yellow
 inputs:
   switch_trust_instance:
-    description: 'URL of your Switch Trust instance, e.g. https://app.flintai.dev (other environments: https://dev.flintai.dev, https://staging.flintai.dev).'
+    description: 'URL of your Switch Trust instance, e.g. https://app.flintai.dev'
     required: true
   switch_trust_token:
     description: API key for your Switch Trust instance

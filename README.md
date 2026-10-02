@@ -32,7 +32,7 @@ Properties are passed to GitHub Action via explicit `with` input variables. For 
 
 | Property            | Required | Description                                                                                                                              |
 | ------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `switch_trust_instance`  | yes      | URL of your Switch Trust instance, e.g. `https://app.flintai.dev` (other environments: `https://dev.flintai.dev`, `https://staging.flintai.dev`).      |
+| `switch_trust_instance`  | yes      | URL of your Switch Trust instance, e.g. `https://app.flintai.dev`      |
 | `switch_trust_token`     | yes      | API key for your Switch Trust instance                                                                                                       |
 | `llm_model`         | yes      | LLM to use, in the form `<provider>:<model>`. Supported providers: `anthropic`, `openai`, `gemini`/`google` (e.g. `anthropic:claude-opus-4-8`). |
 | `llm_api_key`       | yes      | API key for the provider selected in `llm_model`. The action forwards it to the scanner under the provider-native name (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, or `GOOGLE_API_KEY`). |
@@ -40,4 +40,4 @@ Properties are passed to GitHub Action via explicit `with` input variables. For 
 ## About
 Scans the repository contents for AI usage and reports findings back to Switch Trust.
 
-[Learn more](https://www.flintai.dev/).
+[Learn more](https://www.switchagents.ai/).
